@@ -5,21 +5,13 @@ const SPEED = 600.0
 const JUMP_VELOCITY = -500.0
 
 enum {IDLE, RUNNING, CROUCHED, JUMP_UP, JUMP_IDLE, JUMP_DOWN}
-
 var state = null
-
-var is_facing_right = true
-var is_crouching = false
-var is_crouch_animating = false
 
 @onready var animation_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 func _ready() -> void:
 	change_state(IDLE)
-
-func _process(_delta: float) -> void:
-	animation_sprite.scale[0] = 1 if is_facing_right else -1
 	
 func change_state(new_state):
 	if state == new_state: return
@@ -71,7 +63,7 @@ func _physics_process(delta: float) -> void:
 		var direction := Input.get_axis("move_left", "move_right")
 		if direction:
 			velocity.x = direction * SPEED
-			is_facing_right = direction > 0
+			animation_sprite.scale[0] = 1 if direction > 0 else -1
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 		if Input.is_action_just_pressed("jump") and is_on_floor():
