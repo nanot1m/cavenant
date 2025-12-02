@@ -13,6 +13,7 @@ var is_crouching = false
 var is_crouch_animating = false
 
 @onready var animation_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 func _ready() -> void:
 	change_state(IDLE)
@@ -27,6 +28,8 @@ func change_state(new_state):
 	if new_state == CROUCHED:
 		state = new_state
 		animation_sprite.play("crouch_down")
+		collision_shape.shape.size = Vector2(22, 23)
+		collision_shape.position = Vector2(0, 6)
 		await animation_sprite.animation_finished
 	else: if state == CROUCHED:
 		state = new_state
@@ -34,19 +37,27 @@ func change_state(new_state):
 		await animation_sprite.animation_finished
 	
 	state = new_state
+	collision_shape.position = Vector2(0, 0)
 	match state:
 		IDLE:
 			animation_sprite.play("idle")
+			collision_shape.shape.size = Vector2(22, 35)
 		RUNNING:
 			animation_sprite.play("run")
+			collision_shape.shape.size = Vector2(35, 35)
 		CROUCHED:
 			animation_sprite.play("crouch_idle")
+			collision_shape.shape.size = Vector2(22, 23)
+			collision_shape.position = Vector2(0, 6)
 		JUMP_IDLE:
 			animation_sprite.play("jump_idle")
+			collision_shape.shape.size = Vector2(22, 35)
 		JUMP_DOWN:
 			animation_sprite.play("jump_down")
+			collision_shape.shape.size = Vector2(22, 35)
 		JUMP_UP:
 			animation_sprite.play("jump_up")
+			collision_shape.shape.size = Vector2(22, 35)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -55,6 +66,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_pressed("crouch") and is_on_floor():
 		change_state(CROUCHED)
+		velocity.x = move_toward(velocity.x, 0, SPEED)
 	else:
 		var direction := Input.get_axis("move_left", "move_right")
 		if direction:
