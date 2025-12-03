@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody2D
 
 const SPEED = 400.0
@@ -10,7 +11,7 @@ const SPEED_SLIDE_THRESHOLD = 40.0
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
-@onready var states = $StateMachine
+@onready var states: StateMachine = $StateMachine
 
 # HITBOXES
 const STAND_SIZE  = Vector2(22, 35)

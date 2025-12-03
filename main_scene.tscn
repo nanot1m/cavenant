@@ -461,33 +461,33 @@ script = ExtResource("11_qwutr")
 [node name="SlideState" type="Node" parent="Player/StateMachine"]
 script = ExtResource("12_671wp")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(160, 123)
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_2c62f")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
 texture = SubResource("PlaceholderTexture2D_gyfs4")
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+[node name="Floor2" type="StaticBody2D" parent="."]
 position = Vector2(201, 324)
 rotation = -0.19698648
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2"]
 shape = SubResource("RectangleShape2D_2c62f")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+[node name="Sprite2D" type="Sprite2D" parent="Floor2"]
 texture = SubResource("PlaceholderTexture2D_gyfs4")
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+[node name="Floor3" type="StaticBody2D" parent="."]
 position = Vector2(1206, 176)
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor3"]
 shape = SubResource("RectangleShape2D_2c62f")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
+[node name="Sprite2D" type="Sprite2D" parent="Floor3"]
 texture = SubResource("PlaceholderTexture2D_gyfs4")

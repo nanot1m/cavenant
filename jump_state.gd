@@ -1,5 +1,7 @@
 extends "res://state.gd"
 
+var state_type = StateMachine.State.JUMP
+
 func enter(_previous):
 	var p = player
 
@@ -17,7 +19,7 @@ func physics_update(delta):
 
 	# HIT
 	if Input.is_action_just_pressed("hit"):
-		p.states.change_state(p.states.get_node("HitState"))
+		p.states.change_state(StateMachine.State.HIT)
 		return
 
 	# Animation selection
@@ -31,6 +33,6 @@ func physics_update(delta):
 	# LAND
 	if p.is_on_floor():
 		if Input.is_action_pressed("crouch"):
-			p.states.change_state(p.states.get_node("CrouchTransitionDownState"))
+			p.states.change_state(StateMachine.State.CROUCH_TRANSITION_DOWN)
 		else:
-			p.states.change_state(p.states.get_node("IdleState"))
+			p.states.change_state(StateMachine.State.IDLE)

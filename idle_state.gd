@@ -1,5 +1,7 @@
 extends "res://state.gd"
 
+var state_type = StateMachine.State.IDLE
+
 func enter(_previous):
 	var p = player
 	p.anim.play("idle")
@@ -13,25 +15,25 @@ func physics_update(delta):
 
 	# HIT
 	if Input.is_action_just_pressed("hit"):
-		p.states.change_state(p.states.get_node("HitState"))
+		p.states.change_state(StateMachine.State.HIT)
 		return
 
 	# CROUCH
 	if Input.is_action_pressed("crouch") and p.is_on_floor():
-		p.states.change_state(p.states.get_node("CrouchTransitionDownState"))
+		p.states.change_state(StateMachine.State.CROUCH_TRANSITION_DOWN)
 		return
 
 	# RUN
 	var input_x = Input.get_axis("move_left", "move_right")
 	if abs(input_x) > 0:
-		p.states.change_state(p.states.get_node("RunState"))
+		p.states.change_state(StateMachine.State.RUN)
 		return
 
 	# JUMP
 	if Input.is_action_just_pressed("jump") and p.is_on_floor():
-		p.states.change_state(p.states.get_node("JumpState"))
+		p.states.change_state(StateMachine.State.JUMP)
 		return
 
 	# gravity
 	if not p.is_on_floor():
-		p.states.change_state(p.states.get_node("JumpState"))
+		p.states.change_state(StateMachine.State.JUMP)

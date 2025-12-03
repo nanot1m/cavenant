@@ -1,5 +1,7 @@
 extends "res://state.gd"
 
+var state_type = StateMachine.State.HIT
+
 func enter(_previous):
 	var p = player
 	p.anim.play("hit")
@@ -19,4 +21,4 @@ func physics_update(delta):
 		p.velocity.y += p.GRAVITY * delta
 
 func _on_anim_done():
-	player.states.change_state(player.states.get_node("IdleState"))
+	player.states.change_state(StateMachine.State.IDLE)

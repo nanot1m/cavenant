@@ -1,6 +1,6 @@
 extends Node
 
-var player: CharacterBody2D
+var player: Player
 
 func enter(_previous_state): pass
 func exit(_next_state): pass

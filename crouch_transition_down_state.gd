@@ -1,5 +1,7 @@
 extends "res://state.gd"
 
+var state_type = StateMachine.State.CROUCH_TRANSITION_DOWN
+
 func enter(_previous):
 	var p = player
 	p.anim.play("crouch_down")
@@ -10,6 +12,6 @@ func enter(_previous):
 
 func _on_anim_done():
 	if abs(player.velocity.x) < player.SPEED_SLIDE_THRESHOLD:
-		player.states.change_state(player.states.get_node("CrouchState"))
+		player.states.change_state(StateMachine.State.CROUCH)
 	else:
-		player.states.change_state(player.states.get_node("SlideState"))
+		player.states.change_state(StateMachine.State.SLIDE)

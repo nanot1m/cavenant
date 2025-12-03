@@ -1,5 +1,7 @@
 extends "res://state.gd"
 
+var state_type = StateMachine.State.SLIDE
+
 func enter(_previous):
 	var p = player
 	p.anim.play("slide")
@@ -13,21 +15,21 @@ func physics_update(delta):
 
 # gravity
 	if not p.is_on_floor():
-		p.states.change_state(p.states.get_node("JumpState"))
+		p.states.change_state(StateMachine.State.JUMP)
 		return
 
 	# HIT
 	if Input.is_action_just_pressed("hit"):
-		p.states.change_state(p.states.get_node("HitState"))
+		p.states.change_state(StateMachine.State.HIT)
 		return
-		
+
 	if abs(p.velocity.x) <= p.SPEED_SLIDE_THRESHOLD:
-		p.states.change_state(p.states.get_node("CrouchState"))
+		p.states.change_state(StateMachine.State.CROUCH)
 		return
 
 	# UNCROUCH
 	if not Input.is_action_pressed("crouch"):
-		p.states.change_state(p.states.get_node("CrouchTransitionUpState"))
+		p.states.change_state(StateMachine.State.CROUCH_TRANSITION_UP)
 		return
 
 	# JUMP attempt is ignored while crouching
