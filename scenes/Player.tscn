@@ -411,6 +411,8 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_p07f3")
 animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.2864198
 offset = Vector2(7, -4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
