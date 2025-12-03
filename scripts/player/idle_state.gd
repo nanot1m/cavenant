@@ -26,8 +26,18 @@ func physics_update(delta):
 	# RUN
 	var input_x = Input.get_axis("move_left", "move_right")
 	if abs(input_x) > 0:
-		p.states.change_state(StateMachine.State.RUN)
-		return
+		# Check if running into a wall
+		var moving_right = input_x > 0
+		var facing_right = p.is_facing_right()
+
+		# Update facing direction based on input
+		if moving_right != facing_right:
+			p.face_towards_dir(int(input_x))
+
+		# Only transition to run if not pushing against a wall
+		if not p.is_wall_detected():
+			p.states.change_state(StateMachine.State.RUN)
+			return
 
 	# JUMP
 	if Input.is_action_pressed("jump") and p.is_on_floor():

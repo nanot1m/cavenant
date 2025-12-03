@@ -1,0 +1,64 @@
+extends "res://scripts/player/state.gd"
+
+var state_type = StateMachine.State.WALL_SLIDE
+
+# Grace period as extra safety net
+const WALL_GRACE_PERIOD = 0.1  # seconds
+var wall_grace_timer = 0.0
+
+func enter(_previous):
+	player.anim.play("wall_slide")
+	player.collision_shape.shape.size = player.WALL_SLIDE_SIZE
+	player.collision_shape.position = player.WALL_SLIDE_POS
+	if (player.is_facing_right()):
+		player.anim.position.x += 6
+	else:
+		player.anim.position.x -= 6
+	# Reset grace timer when entering wall slide
+	wall_grace_timer = WALL_GRACE_PERIOD
+
+func exit(_next_state):
+	player.anim.position.x = 0
+
+func physics_update(delta):
+	# gravity
+	if not player.is_on_floor():
+		player.velocity.y = player.SPEED_WALL_SLIDE
+
+	if player.is_on_floor():
+		player.states.change_state(StateMachine.State.IDLE)
+		return
+
+	var is_facing_right = player.is_facing_right()
+	var input_x = Input.get_axis("move_left", "move_right")
+
+	# Check if player is holding toward the wall
+	var holding_toward_wall = input_x == 0 or(is_facing_right and Input.is_action_pressed("move_right")) or (not is_facing_right and Input.is_action_pressed("move_left"))
+
+	# Combine wall detection and input with grace period
+	if player.is_wall_detected() and holding_toward_wall:
+		wall_grace_timer = WALL_GRACE_PERIOD
+	else:
+		wall_grace_timer -= delta
+
+	# Only exit if grace period has expired
+	if wall_grace_timer <= 0:
+		player.states.change_state(StateMachine.State.JUMP)
+		player.velocity.x = move_toward(player.velocity.x, input_x * player.SPEED, player.ACCEL * delta)
+		return
+
+	if Input.is_action_just_pressed("jump"):
+		player.velocity.y = -player.JUMP_FORCE
+		# push off the wall
+		if is_facing_right:
+			player.velocity.x = -player.SPEED
+		else:
+			player.velocity.x = player.SPEED
+		player.states.change_state(StateMachine.State.JUMP)
+		return
+	
+	if Input.is_action_just_pressed("crouch"):
+		player.states.change_state(StateMachine.State.JUMP)
+		return
+
+	

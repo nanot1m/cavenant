@@ -23,6 +23,13 @@ func physics_update(delta):
 		p.states.change_state(StateMachine.State.HIT)
 		return
 
+	# SLIDE - only if there's not enough space above to stand up
+	if not p.can_stand_up():
+		if p.velocity.x == 0:
+			p.velocity.x = p.SPEED * (1 if p.is_facing_right() else -1)
+		p.states.change_state(StateMachine.State.SLIDE)
+
 	# UNCROUCH
 	if not Input.is_action_pressed("crouch"):
+		# Enough space, stand up normally
 		p.states.change_state(StateMachine.State.CROUCH_TRANSITION_UP)

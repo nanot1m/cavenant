@@ -22,12 +22,19 @@ func physics_update(delta):
 	if Input.is_action_just_pressed("hit"):
 		p.states.change_state(StateMachine.State.HIT)
 		return
+		
+	if not p.can_stand_up():
+		if p.velocity.x > 0:
+			p.velocity.x = max(p.velocity.x, p.SPEED / 4)
+		else:
+			p.velocity.x = min(p.velocity.x, -p.SPEED / 4)
+		return
 
 	if abs(p.velocity.x) <= p.SPEED_SLIDE_THRESHOLD:
 		p.states.change_state(StateMachine.State.CROUCH)
 		return
 
-	# UNCROUCH
+	# UNCROUCH - only if there's enough space above
 	if not Input.is_action_pressed("crouch"):
 		p.states.change_state(StateMachine.State.CROUCH_TRANSITION_UP)
 		return

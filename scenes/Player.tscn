@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://be1ytisdnadqq"]
+[gd_scene load_steps=66 format=3 uid="uid://be1ytisdnadqq"]
 
 [ext_resource type="Script" uid="uid://c1jh7o41t8qjo" path="res://scripts/player/player.gd" id="1_o4126"]
 [ext_resource type="Texture2D" uid="uid://wdb62uxcgmxo" path="res://assets/sprites/Warrior_Sheet-Effect.png" id="2_lkdrv"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://byiknhsv6632e" path="res://scripts/player/hit_state.gd" id="10_gv3ic"]
 [ext_resource type="Script" uid="uid://4l300f58ox8l" path="res://scripts/player/state.gd" id="11_b8lor"]
 [ext_resource type="Script" uid="uid://dl0uvscvxcqjr" path="res://scripts/player/slide_state.gd" id="12_6e537"]
+[ext_resource type="Script" uid="uid://d2fsorq7s7fi5" path="res://scenes/wall_slide_state.gd" id="13_lkdrv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m35m6"]
 atlas = ExtResource("2_lkdrv")
@@ -200,6 +201,18 @@ region = Rect2(345, 616, 69, 44)
 [sub_resource type="AtlasTexture" id="AtlasTexture_jef5d"]
 atlas = ExtResource("2_lkdrv")
 region = Rect2(0, 660, 69, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7iby"]
+atlas = ExtResource("2_lkdrv")
+region = Rect2(0, 440, 69, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rnld"]
+atlas = ExtResource("2_lkdrv")
+region = Rect2(69, 440, 69, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srp4u"]
+atlas = ExtResource("2_lkdrv")
+region = Rect2(138, 440, 69, 44)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_p07f3"]
 animations = [{
@@ -398,6 +411,20 @@ animations = [{
 "loop": true,
 "name": &"slide_up",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7iby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rnld")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srp4u")
+}],
+"loop": true,
+"name": &"wall_slide",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_viqgg"]
@@ -410,9 +437,9 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_p07f3")
-animation = &"idle"
+animation = &"wall_slide"
 autoplay = "idle"
-frame_progress = 0.2864198
+frame_progress = 0.5818674
 offset = Vector2(7, -4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -447,3 +474,6 @@ script = ExtResource("11_b8lor")
 
 [node name="SlideState" type="Node" parent="StateMachine"]
 script = ExtResource("12_6e537")
+
+[node name="WallSlideState" type="Node" parent="StateMachine"]
+script = ExtResource("13_lkdrv")

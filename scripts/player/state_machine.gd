@@ -9,7 +9,8 @@ enum State {
 	CROUCH_TRANSITION_DOWN,
 	CROUCH_TRANSITION_UP,
 	SLIDE,
-	HIT
+	HIT,
+	WALL_SLIDE
 }
 
 var current_state
@@ -30,6 +31,7 @@ func init(_player):
 	current_state.enter(null)
 
 func change_state(new_state_enum: State):
+	print("Changing state to: ", new_state_enum)
 	var new_state = states[new_state_enum]
 	if current_state == new_state:
 		return

@@ -8,4 +8,9 @@ func enter(_previous):
 	p.anim.animation_finished.connect(_on_anim_done, CONNECT_ONE_SHOT)
 
 func _on_anim_done():
-	player.states.change_state(StateMachine.State.IDLE)
+	# Double-check there's space before fully standing up
+	if player.can_stand_up():
+		player.states.change_state(StateMachine.State.IDLE)
+	else:
+		# Not enough space, go back to crouch
+		player.states.change_state(StateMachine.State.CROUCH)

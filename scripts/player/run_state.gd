@@ -25,8 +25,13 @@ func physics_update(delta):
 		p.states.change_state(StateMachine.State.HIT)
 		return
 
-	# STOP
+	# STOP - when no input OR running into a wall
 	if input_x == 0:
+		p.states.change_state(StateMachine.State.IDLE)
+		return
+
+	# Check if running into a wall
+	if p.is_wall_detected():
 		p.states.change_state(StateMachine.State.IDLE)
 		return
 
