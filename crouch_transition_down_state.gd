@@ -9,4 +9,7 @@ func enter(_previous):
 	p.anim.animation_finished.connect(_on_anim_done, CONNECT_ONE_SHOT)
 
 func _on_anim_done():
-	player.states.change_state(player.states.get_node("CrouchState"))
+	if abs(player.velocity.x) < player.SPEED_SLIDE_THRESHOLD:
+		player.states.change_state(player.states.get_node("CrouchState"))
+	else:
+		player.states.change_state(player.states.get_node("SlideState"))

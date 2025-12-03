@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://bqvlql03rm2up"]
+[gd_scene load_steps=64 format=3 uid="uid://bqvlql03rm2up"]
 
 [ext_resource type="Texture2D" uid="uid://wdb62uxcgmxo" path="res://Warrior_Sheet-Effect.png" id="1_0f027"]
 [ext_resource type="Script" uid="uid://c1jh7o41t8qjo" path="res://player.gd" id="1_2c62f"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bur684yml1k4k" path="res://crouch_transition_up_state.gd" id="9_7ycvg"]
 [ext_resource type="Script" uid="uid://byiknhsv6632e" path="res://hit_state.gd" id="10_wr18j"]
 [ext_resource type="Script" uid="uid://4l300f58ox8l" path="res://state.gd" id="11_qwutr"]
+[ext_resource type="Script" uid="uid://dl0uvscvxcqjr" path="res://slide_state.gd" id="12_671wp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m35m6"]
 atlas = ExtResource("1_0f027")
@@ -179,6 +180,26 @@ region = Rect2(0, 88, 69, 44)
 [sub_resource type="AtlasTexture" id="AtlasTexture_2jcla"]
 atlas = ExtResource("1_0f027")
 region = Rect2(69, 88, 69, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ek5vw"]
+atlas = ExtResource("1_0f027")
+region = Rect2(138, 616, 69, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jip8q"]
+atlas = ExtResource("1_0f027")
+region = Rect2(207, 616, 69, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_euc68"]
+atlas = ExtResource("1_0f027")
+region = Rect2(276, 616, 69, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38t8r"]
+atlas = ExtResource("1_0f027")
+region = Rect2(345, 616, 69, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jef5d"]
+atlas = ExtResource("1_0f027")
+region = Rect2(0, 660, 69, 44)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_66tet"]
 animations = [{
@@ -352,6 +373,31 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ek5vw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jip8q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_euc68")
+}],
+"loop": true,
+"name": &"slide",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38t8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jef5d")
+}],
+"loop": true,
+"name": &"slide_up",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ycvg"]
@@ -373,13 +419,16 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 sprite_frames = SubResource("SpriteFrames_66tet")
-animation = &"crouch_down"
+animation = &"idle"
+frame_progress = 0.6655409
 offset = Vector2(7, -4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+visible = false
 shape = SubResource("RectangleShape2D_7ycvg")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+visible = false
 zoom = Vector2(2, 2)
 
 [node name="StateMachine" type="Node" parent="Player"]
@@ -408,6 +457,9 @@ script = ExtResource("10_wr18j")
 
 [node name="State" type="Node" parent="Player/StateMachine"]
 script = ExtResource("11_qwutr")
+
+[node name="SlideState" type="Node" parent="Player/StateMachine"]
+script = ExtResource("12_671wp")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(160, 123)

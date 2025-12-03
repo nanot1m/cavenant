@@ -30,6 +30,7 @@ func physics_update(delta):
 
 	# CROUCH
 	if Input.is_action_pressed("crouch") and p.is_on_floor():
+		print("Player VelX ", abs(p.velocity.x))
 		p.states.change_state(p.states.get_node("CrouchTransitionDownState"))
 		return
 
