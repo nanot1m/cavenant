@@ -1,4 +1,4 @@
-extends "res://state.gd"
+extends "res://scripts/player/state.gd"
 
 var state_type = StateMachine.State.RUN
 
@@ -36,7 +36,7 @@ func physics_update(delta):
 		return
 
 	# JUMP
-	if Input.is_action_just_pressed("jump") and p.is_on_floor():
+	if Input.is_action_pressed("jump") and p.is_on_floor():
 		p.states.change_state(StateMachine.State.JUMP)
 		return
 

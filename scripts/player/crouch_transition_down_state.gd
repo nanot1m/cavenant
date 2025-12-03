@@ -1,4 +1,4 @@
-extends "res://state.gd"
+extends "res://scripts/player/state.gd"
 
 var state_type = StateMachine.State.CROUCH_TRANSITION_DOWN
 
