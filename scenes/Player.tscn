@@ -435,6 +435,7 @@ height = 32.0
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
 script = ExtResource("1_o4126")
+air_friction = 300.0
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

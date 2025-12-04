@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var wall_slide_speed: float = 80.0
 @export var friction: float = 2000.0
 @export var slide_friction: float = 500.0
+@export var air_friction: float = 200.0  # Air resistance for Mario-like physics
 @export var speed_for_slide_start: float = 40.0
 @export var coyote_time: float = 0.15
 
