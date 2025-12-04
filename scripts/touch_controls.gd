@@ -68,13 +68,13 @@ func _process(_delta: float) -> void:
 	if jump_just_pressed:
 		Input.action_press("jump")
 		jump_just_pressed = false
-	elif not jump_just_pressed:
+	else:
 		Input.action_release("jump")
 	
 	if hit_just_pressed:
 		Input.action_press("hit")
 		hit_just_pressed = false
-	elif not hit_just_pressed:
+	else:
 		Input.action_release("hit")
 
 # Left button handlers
