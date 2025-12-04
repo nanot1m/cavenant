@@ -1,0 +1,139 @@
+[gd_scene load_steps=8 format=3 uid="uid://b4j7n8m9k2pqr"]
+
+[ext_resource type="Script" path="res://scripts/touch_controls.gd" id="1_touch"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_left"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_right"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jump"]
+radius = 50.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_crouch"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
+radius = 45.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_1"]
+size = Vector2(80, 80)
+
+[node name="TouchControls" type="CanvasLayer"]
+script = ExtResource("1_touch")
+
+[node name="LeftButton" type="TouchScreenButton" parent="."]
+position = Vector2(80, 520)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_left")
+visibility_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="LeftButton"]
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.4, 0.4, 0.4, 0.5)
+
+[node name="Label" type="Label" parent="LeftButton"]
+offset_left = -20.0
+offset_top = -15.0
+offset_right = 20.0
+offset_bottom = 15.0
+theme_override_font_sizes/font_size = 32
+text = "<"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightButton" type="TouchScreenButton" parent="."]
+position = Vector2(200, 520)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_right")
+visibility_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="RightButton"]
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.4, 0.4, 0.4, 0.5)
+
+[node name="Label" type="Label" parent="RightButton"]
+offset_left = -20.0
+offset_top = -15.0
+offset_right = 20.0
+offset_bottom = 15.0
+theme_override_font_sizes/font_size = 32
+text = ">"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JumpButton" type="TouchScreenButton" parent="."]
+position = Vector2(1070, 520)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_jump")
+visibility_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="JumpButton"]
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+color = Color(0.2, 0.6, 0.2, 0.5)
+
+[node name="Label" type="Label" parent="JumpButton"]
+offset_left = -25.0
+offset_top = -15.0
+offset_right = 25.0
+offset_bottom = 15.0
+theme_override_font_sizes/font_size = 24
+text = "JUMP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CrouchButton" type="TouchScreenButton" parent="."]
+position = Vector2(940, 520)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_crouch")
+visibility_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="CrouchButton"]
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.6, 0.4, 0.2, 0.5)
+
+[node name="Label" type="Label" parent="CrouchButton"]
+offset_left = -30.0
+offset_top = -15.0
+offset_right = 30.0
+offset_bottom = 15.0
+theme_override_font_sizes/font_size = 20
+text = "DOWN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HitButton" type="TouchScreenButton" parent="."]
+position = Vector2(1070, 420)
+scale = Vector2(1, 1)
+shape = SubResource("CircleShape2D_hit")
+visibility_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="HitButton"]
+offset_left = -45.0
+offset_top = -45.0
+offset_right = 45.0
+offset_bottom = 45.0
+color = Color(0.8, 0.2, 0.2, 0.5)
+
+[node name="Label" type="Label" parent="HitButton"]
+offset_left = -25.0
+offset_top = -15.0
+offset_right = 25.0
+offset_bottom = 15.0
+theme_override_font_sizes/font_size = 24
+text = "HIT"
+horizontal_alignment = 1
+vertical_alignment = 1
