@@ -12,6 +12,10 @@ var is_left_pressed: bool = false
 var is_right_pressed: bool = false
 var is_crouch_pressed: bool = false
 
+# Track if jump/hit were just pressed this frame
+var jump_just_pressed: bool = false
+var hit_just_pressed: bool = false
+
 func _ready() -> void:
 	# Show touch controls only on mobile platforms
 	# Hide on desktop for development/testing purposes
@@ -59,6 +63,19 @@ func _process(_delta: float) -> void:
 		Input.action_press("crouch")
 	else:
 		Input.action_release("crouch")
+	
+	# Handle jump and hit with just_pressed behavior
+	if jump_just_pressed:
+		Input.action_press("jump")
+		jump_just_pressed = false
+	elif not jump_just_pressed:
+		Input.action_release("jump")
+	
+	if hit_just_pressed:
+		Input.action_press("hit")
+		hit_just_pressed = false
+	elif not hit_just_pressed:
+		Input.action_release("hit")
 
 # Left button handlers
 func _on_left_pressed() -> void:
@@ -74,12 +91,12 @@ func _on_right_pressed() -> void:
 func _on_right_released() -> void:
 	is_right_pressed = false
 
-# Jump button handlers (immediate action for just_pressed detection)
+# Jump button handlers (set flag for just_pressed behavior)
 func _on_jump_pressed() -> void:
-	Input.action_press("jump")
+	jump_just_pressed = true
 
 func _on_jump_released() -> void:
-	Input.action_release("jump")
+	pass  # Jump release is handled in _process
 
 # Crouch button handlers
 func _on_crouch_pressed() -> void:
@@ -88,9 +105,9 @@ func _on_crouch_pressed() -> void:
 func _on_crouch_released() -> void:
 	is_crouch_pressed = false
 
-# Hit button handlers (immediate action for just_pressed detection)
+# Hit button handlers (set flag for just_pressed behavior)
 func _on_hit_pressed() -> void:
-	Input.action_press("hit")
+	hit_just_pressed = true
 
 func _on_hit_released() -> void:
-	Input.action_release("hit")
+	pass  # Hit release is handled in _process
