@@ -427,8 +427,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_viqgg"]
-size = Vector2(22, 35)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lkdrv"]
+custom_solver_bias = 0.505
+radius = 8.0
+height = 32.0
 
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
@@ -437,13 +439,12 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_p07f3")
-animation = &"wall_slide"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.5818674
 offset = Vector2(7, -4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_viqgg")
+shape = SubResource("CapsuleShape2D_lkdrv")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_p7iby")

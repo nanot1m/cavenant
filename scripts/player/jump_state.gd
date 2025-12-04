@@ -6,11 +6,15 @@ var state_type = StateMachine.State.JUMP
 const JUMP_GRACE_PERIOD = 0.1  # seconds
 var jump_grace_timer = 0.0
 
-func enter(_previous):
+func enter(_previous: int):
 	var p = player
 
+	p.update_collision_bounds(p.STAND_SIZE, p.STAND_POS)
+
+	# Only apply jump force if actually on floor
+	# Coyote time jumps are handled in physics_update
 	if p.is_on_floor():
-		p.velocity.y = -p.JUMP_FORCE
+		p.velocity.y = -p.jump_force
 
 	# Reset grace timer when entering jump state
 	jump_grace_timer = JUMP_GRACE_PERIOD
@@ -23,9 +27,15 @@ func physics_update(delta):
 	# Update jump grace timer
 	jump_grace_timer -= delta
 
+	# Coyote time jump - allow jumping if within coyote time window
+	if Input.is_action_just_pressed("jump") and not p.is_on_floor() and p.time_since_on_floor <= p.coyote_time:
+		p.velocity.y = -p.jump_force
+		# Reset coyote timer after jumping to prevent multiple jumps from same coyote window
+		p.time_since_on_floor = p.coyote_time + 1.0
+
 	# Horizontal drift
 	var input_x = Input.get_axis("move_left", "move_right")
-	p.velocity.x = move_toward(p.velocity.x, input_x * p.SPEED, p.ACCEL * delta)
+	p.velocity.x = move_toward(p.velocity.x, input_x * p.speed, p.acceleration * delta)
 	p.face_towards_dir(input_x)
 
 	# HIT

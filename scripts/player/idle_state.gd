@@ -5,13 +5,12 @@ var state_type = StateMachine.State.IDLE
 func enter(_previous):
 	var p = player
 	p.anim.play("idle")
-	p.collision_shape.shape.size = p.STAND_SIZE
-	p.collision_shape.position = p.STAND_POS
+	p.update_collision_bounds(p.STAND_SIZE, p.STAND_POS)
 
 func physics_update(delta):
 	var p = player
 	
-	p.velocity.x = move_toward(p.velocity.x, 0, p.FRICTION * delta)
+	p.velocity.x = move_toward(p.velocity.x, 0, p.friction * delta)
 
 	# HIT
 	if Input.is_action_just_pressed("hit"):
@@ -40,10 +39,11 @@ func physics_update(delta):
 			return
 
 	# JUMP
-	if Input.is_action_pressed("jump") and p.is_on_floor():
+	if Input.is_action_just_pressed("jump") and p.can_jump():
 		p.states.change_state(StateMachine.State.JUMP)
 		return
 
 	# gravity
 	if not p.is_on_floor():
+		print("Player is falling")
 		p.states.change_state(StateMachine.State.JUMP)

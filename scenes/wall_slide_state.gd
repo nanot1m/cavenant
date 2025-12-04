@@ -8,8 +8,7 @@ var wall_grace_timer = 0.0
 
 func enter(_previous):
 	player.anim.play("wall_slide")
-	player.collision_shape.shape.size = player.WALL_SLIDE_SIZE
-	player.collision_shape.position = player.WALL_SLIDE_POS
+	player.update_collision_bounds(player.WALL_SLIDE_SIZE, player.WALL_SLIDE_POS)
 	if (player.is_facing_right()):
 		player.anim.position.x += 6
 	else:
@@ -23,7 +22,7 @@ func exit(_next_state):
 func physics_update(delta):
 	# gravity
 	if not player.is_on_floor():
-		player.velocity.y = player.SPEED_WALL_SLIDE
+		player.velocity.y = player.wall_slide_speed
 
 	if player.is_on_floor():
 		player.states.change_state(StateMachine.State.IDLE)
@@ -44,16 +43,16 @@ func physics_update(delta):
 	# Only exit if grace period has expired
 	if wall_grace_timer <= 0:
 		player.states.change_state(StateMachine.State.JUMP)
-		player.velocity.x = move_toward(player.velocity.x, input_x * player.SPEED, player.ACCEL * delta)
+		player.velocity.x = move_toward(player.velocity.x, input_x * player.speed, player.acceleration * delta)
 		return
 
 	if Input.is_action_just_pressed("jump"):
-		player.velocity.y = -player.JUMP_FORCE
+		player.velocity.y = -player.jump_force
 		# push off the wall
 		if is_facing_right:
-			player.velocity.x = -player.SPEED
+			player.velocity.x = -player.speed
 		else:
-			player.velocity.x = player.SPEED
+			player.velocity.x = player.speed
 		player.states.change_state(StateMachine.State.JUMP)
 		return
 	

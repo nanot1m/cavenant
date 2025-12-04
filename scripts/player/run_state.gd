@@ -5,8 +5,7 @@ var state_type = StateMachine.State.RUN
 func enter(_previous):
 	var p = player
 	p.anim.play("run")
-	p.collision_shape.shape.size = p.RUN_SIZE
-	p.collision_shape.position = p.RUN_POS
+	p.update_collision_bounds(p.RUN_SIZE, p.RUN_POS)
 
 func physics_update(delta):
 	var p = player
@@ -18,7 +17,7 @@ func physics_update(delta):
 		p.anim.scale[0] = -1 if input_x < 0 else 1
 
 	# Movement
-	p.velocity.x = move_toward(p.velocity.x, input_x * p.SPEED, p.ACCEL * delta)
+	p.velocity.x = move_toward(p.velocity.x, input_x * p.speed, p.acceleration * delta)
 
 	# HIT
 	if Input.is_action_just_pressed("hit"):
@@ -41,7 +40,7 @@ func physics_update(delta):
 		return
 
 	# JUMP
-	if Input.is_action_pressed("jump") and p.is_on_floor():
+	if Input.is_action_pressed("jump") and p.can_jump():
 		p.states.change_state(StateMachine.State.JUMP)
 		return
 
