@@ -269,7 +269,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"crouch_down",
-"speed": 12.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -297,7 +297,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"crouch_up",
-"speed": 12.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -381,7 +381,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hit",
-"speed": 12.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -531,10 +531,8 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_p07f3")
-animation = &"hanging_on_edge_start"
+animation = &"hit"
 autoplay = "idle"
-frame = 3
-frame_progress = 1.0
 offset = Vector2(7, -4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

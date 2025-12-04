@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://bqvlql03rm2up"]
+[gd_scene load_steps=6 format=4 uid="uid://bqvlql03rm2up"]
 
 [ext_resource type="PackedScene" uid="uid://be1ytisdnadqq" path="res://scenes/Player.tscn" id="1_0f027"]
 [ext_resource type="Texture2D" uid="uid://db8levapk4y5r" path="res://assets/sprites/TX Tileset Ground.png" id="2_2c62f"]
+[ext_resource type="PackedScene" uid="uid://b4j7n8nak2pqr" path="res://scenes/TouchControls.tscn" id="3_touch"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d5x1h"]
 texture = ExtResource("2_2c62f")
@@ -356,3 +357,5 @@ tile_map_data = PackedByteArray("AAD6/wEAAAAAAAAAAAD7/wEAAAABAAAAAAD8/wEAAAABAAA
 tile_set = SubResource("TileSet_8mm7a")
 rendering_quadrant_size = 32
 physics_quadrant_size = 32
+
+[node name="TouchControls" parent="." instance=ExtResource("3_touch")]

@@ -45,5 +45,4 @@ func physics_update(delta: float) -> void:
 
 	# gravity
 	if not p.is_on_floor():
-		print("Player is falling")
 		p.states.change_state(StateMachine.State.JUMP)

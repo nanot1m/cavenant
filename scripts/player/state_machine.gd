@@ -31,7 +31,6 @@ func init(_player: Player) -> void:
 	current_state.enter(-1)
 
 func change_state(new_state_enum: State) -> void:
-	print("Changing state to: ", new_state_enum)
 	var new_state: StateNode = states[new_state_enum]
 	if current_state == new_state:
 		return
