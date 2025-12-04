@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://b4j7n8m9k2pqr"]
+[gd_scene load_steps=7 format=3 uid="uid://b4j7n8nak2pqr"]
 
-[ext_resource type="Script" path="res://scripts/touch_controls.gd" id="1_touch"]
+[ext_resource type="Script" uid="uid://bwkmxo3g55ypo" path="res://scripts/touch_controls.gd" id="1_touch"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_left"]
 radius = 40.0
@@ -17,15 +17,11 @@ radius = 40.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_hit"]
 radius = 45.0
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_1"]
-size = Vector2(80, 80)
-
 [node name="TouchControls" type="CanvasLayer"]
 script = ExtResource("1_touch")
 
 [node name="LeftButton" type="TouchScreenButton" parent="."]
 position = Vector2(80, 520)
-scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_left")
 visibility_mode = 1
 
@@ -48,7 +44,6 @@ vertical_alignment = 1
 
 [node name="RightButton" type="TouchScreenButton" parent="."]
 position = Vector2(200, 520)
-scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_right")
 visibility_mode = 1
 
@@ -71,7 +66,6 @@ vertical_alignment = 1
 
 [node name="JumpButton" type="TouchScreenButton" parent="."]
 position = Vector2(1070, 520)
-scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_jump")
 visibility_mode = 1
 
@@ -94,7 +88,6 @@ vertical_alignment = 1
 
 [node name="CrouchButton" type="TouchScreenButton" parent="."]
 position = Vector2(940, 520)
-scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_crouch")
 visibility_mode = 1
 
@@ -117,7 +110,6 @@ vertical_alignment = 1
 
 [node name="HitButton" type="TouchScreenButton" parent="."]
 position = Vector2(1070, 420)
-scale = Vector2(1, 1)
 shape = SubResource("CircleShape2D_hit")
 visibility_mode = 1
 
