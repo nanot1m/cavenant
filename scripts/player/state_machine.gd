@@ -17,7 +17,7 @@ var current_state: StateNode
 var player: Player
 var states: Dictionary = {}
 
-func init(_player: Player):
+func init(_player: Player) -> void:
 	player = _player
 
 	# initialize all states and automatically register them
@@ -30,16 +30,16 @@ func init(_player: Player):
 	current_state = states[State.IDLE]
 	current_state.enter(-1)
 
-func change_state(new_state_enum: State):
+func change_state(new_state_enum: State) -> void:
 	print("Changing state to: ", new_state_enum)
 	var new_state: StateNode = states[new_state_enum]
 	if current_state == new_state:
 		return
-	var prev = current_state
+	var prev := current_state
 	current_state.exit(new_state.state_type)
 	current_state = new_state
 	current_state.enter(prev.state_type)
 
-func physics_update(delta: float):
+func physics_update(delta: float) -> void:
 	if current_state:
 		current_state.physics_update(delta)

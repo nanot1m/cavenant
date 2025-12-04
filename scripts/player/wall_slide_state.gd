@@ -1,12 +1,12 @@
 extends "res://scripts/player/state.gd"
 
-var state_type = StateMachine.State.WALL_SLIDE
+var state_type: StateMachine.State = StateMachine.State.WALL_SLIDE
 
 # Grace period as extra safety net
 const WALL_GRACE_PERIOD = 0.1  # seconds
-var wall_grace_timer = 0.0
+var wall_grace_timer: float = 0.0
 
-func enter(_previous):
+func enter(_previous: StateMachine.State) -> void:
 	player.update_collision_bounds(player.WALL_SLIDE_SIZE, player.WALL_SLIDE_POS)
 	if (player.is_facing_right()):
 		player.anim.position.x += 4
@@ -16,10 +16,10 @@ func enter(_previous):
 	wall_grace_timer = WALL_GRACE_PERIOD
 	player.anim.play("wall_slide")
 
-func exit(_next_state):
+func exit(_next_state: StateMachine.State) -> void:
 	player.anim.position.x = 0
 
-func physics_update(delta):
+func physics_update(delta: float) -> void:
 	# gravity
 	if not player.is_on_floor():
 		player.velocity.y = player.wall_slide_speed
@@ -28,11 +28,11 @@ func physics_update(delta):
 		player.states.change_state(StateMachine.State.IDLE)
 		return
 
-	var is_facing_right = player.is_facing_right()
-	var input_x = Input.get_axis("move_left", "move_right")
+	var is_facing_right: bool = player.is_facing_right()
+	var input_x: float = Input.get_axis("move_left", "move_right")
 
 	# Check if player is holding toward the wall
-	var holding_toward_wall = input_x == 0 or(is_facing_right and Input.is_action_pressed("move_right")) or (not is_facing_right and Input.is_action_pressed("move_left"))
+	var holding_toward_wall: bool = input_x == 0 or (is_facing_right and Input.is_action_pressed("move_right")) or (not is_facing_right and Input.is_action_pressed("move_left"))
 
 	# Combine wall detection and input with grace period
 	if player.is_wall_detected() and holding_toward_wall:

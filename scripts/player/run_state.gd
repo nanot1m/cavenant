@@ -1,19 +1,19 @@
 extends "res://scripts/player/state.gd"
 
-var state_type = StateMachine.State.RUN
+var state_type: StateMachine.State = StateMachine.State.RUN
 
-func enter(_previous):
+func enter(_previous: StateMachine.State) -> void:
 	player.anim.play("run")
 	player.anim.speed_scale = 1.0
 	player.update_collision_bounds(player.RUN_SIZE, player.RUN_POS)
-	
-func exit(_next_state: int):
+
+func exit(_next_state: StateMachine.State) -> void:
 	player.anim.speed_scale = 1.0
 
-func physics_update(delta):
-	var p = player
+func physics_update(delta: float) -> void:
+	var p: Player = player
 
-	var input_x = Input.get_axis("move_left", "move_right")
+	var input_x: float = Input.get_axis("move_left", "move_right")
 
 	# Always apply ground friction first (realistic physics)
 	p.velocity.x = move_toward(p.velocity.x, 0, p.friction * delta)

@@ -1,15 +1,15 @@
 extends "res://scripts/player/state.gd"
 
-var state_type = StateMachine.State.IDLE
+var state_type: StateMachine.State = StateMachine.State.IDLE
 
-func enter(_previous):
-	var p = player
+func enter(_previous: StateMachine.State) -> void:
+	var p: Player = player
 	p.anim.play("idle")
 	p.update_collision_bounds(p.STAND_SIZE, p.STAND_POS)
 
-func physics_update(delta):
-	var p = player
-	
+func physics_update(delta: float) -> void:
+	var p: Player = player
+
 	p.velocity.x = move_toward(p.velocity.x, 0, p.friction * delta)
 
 	# HIT
@@ -23,15 +23,15 @@ func physics_update(delta):
 		return
 
 	# RUN
-	var input_x = Input.get_axis("move_left", "move_right")
+	var input_x: float = Input.get_axis("move_left", "move_right")
 	if abs(input_x) > 0:
 		# Check if running into a wall
-		var moving_right = input_x > 0
-		var facing_right = p.is_facing_right()
+		var moving_right: bool = input_x > 0
+		var facing_right: bool = p.is_facing_right()
 
 		# Update facing direction based on input
 		if moving_right != facing_right:
-			p.face_towards_dir(int(input_x))
+			p.face_towards_dir(input_x)
 
 		# Only transition to run if not pushing against a wall
 		if not p.is_wall_detected():

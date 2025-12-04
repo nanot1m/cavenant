@@ -1,15 +1,15 @@
 extends "res://scripts/player/state.gd"
 
-var state_type = StateMachine.State.CROUCH
+var state_type: StateMachine.State = StateMachine.State.CROUCH
 
-func enter(_previous):
-	var p = player
+func enter(_previous: StateMachine.State) -> void:
+	var p: Player = player
 	p.anim.play("crouch_idle")
 	p.update_collision_bounds(p.CROUCH_SIZE, p.CROUCH_POS)
 
-func physics_update(delta):
-	var p = player
-	
+func physics_update(delta: float) -> void:
+	var p: Player = player
+
 	p.velocity.x = move_toward(p.velocity.x, 0, p.friction * delta)
 	
 	# gravity

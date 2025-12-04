@@ -43,7 +43,7 @@ const SLIDE_POS: Vector2 = Vector2(0, (PLAYER_HEIGHT - PLAYER_CROUCH_HEIGHT) / 2
 const JUMP_POS: Vector2 = Vector2(0, 0)
 const WALL_SLIDE_POS: Vector2 = Vector2(0, 0)
 
-func _ready():
+func _ready() -> void:
 	# Enable floor snapping to prevent getting stuck on tile edges
 	floor_snap_length = snap_length
 	floor_stop_on_slope = true
@@ -51,7 +51,7 @@ func _ready():
 
 	states.init(self)
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	# Update coyote time tracking
 	if is_on_floor():
 		time_since_on_floor = 0.0
@@ -71,7 +71,7 @@ func _physics_process(delta):
 func is_facing_right() -> bool:
 	return anim.scale.x > 0
 
-func face_towards_dir(direction_x: int):
+func face_towards_dir(direction_x: float) -> void:
 	if direction_x != 0:
 		anim.scale.x = -1 if direction_x < 0 else 1
 
@@ -80,57 +80,57 @@ func can_jump() -> bool:
 
 # More reliable wall detection using raycasts
 func is_wall_detected() -> bool:
-	var space_state = get_world_2d().direct_space_state
-	var direction = 1 if is_facing_right() else -1
-	var ray_distance = 12.0 # pixels to check
+	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	var direction: int = 1 if is_facing_right() else -1
+	var ray_distance: float = 12.0 # pixels to check
 
 	# Cast multiple rays at different heights to reliably detect walls
 	# Avoid the bottom rays that might catch platform edges
-	var ray_offsets = [-PLAYER_HEIGHT / 3, 0.0, PLAYER_HEIGHT / 3] # vertical offsets
+	var ray_offsets: Array = [-PLAYER_HEIGHT / 3, 0.0, PLAYER_HEIGHT / 3] # vertical offsets
 
-	for offset in ray_offsets:
-		var query = PhysicsRayQueryParameters2D.create(
+	for offset: float in ray_offsets:
+		var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(
 			global_position + Vector2(0, offset),
 			global_position + Vector2(direction * ray_distance, offset)
 		)
 		query.exclude = [self]
 		query.collision_mask = 1 # Adjust if your walls use a different collision layer
 
-		var result = space_state.intersect_ray(query)
+		var result: Dictionary = space_state.intersect_ray(query)
 		if result:
 			# Check if the collision normal is mostly horizontal (actual wall)
 			# Ignore collisions with mostly vertical normals (platform edges)
-			var normal = result.normal
+			var normal: Vector2 = result.normal
 			if abs(normal.x) > 0.7:  # Wall must be fairly vertical
 				return true
 
 	return false
 
-func update_collision_bounds(bounds: Vector2, pos: Vector2):
+func update_collision_bounds(bounds: Vector2, pos: Vector2) -> void:
 	collision_shape.shape.radius = bounds[0]
 	collision_shape.shape.height = bounds[1]
 	collision_shape.position = pos
 
 # Check if there's enough space above to stand up
 func can_stand_up() -> bool:
-	var space_state = get_world_2d().direct_space_state
+	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 
 	# Calculate the height difference between crouch and stand
-	var height_diff = STAND_SIZE.y - CROUCH_SIZE.y
-	var check_distance = height_diff / 2 # Add small buffer
+	var height_diff: float = STAND_SIZE.y - CROUCH_SIZE.y
+	var check_distance: float = height_diff / 2 # Add small buffer
 
 	# Cast rays upward to detect ceiling
-	var ray_offsets = [-PLAYER_WIDTH / 2, 0.0, PLAYER_WIDTH / 2] # horizontal offsets to check multiple points
+	var ray_offsets: Array = [-PLAYER_WIDTH / 2, 0.0, PLAYER_WIDTH / 2] # horizontal offsets to check multiple points
 
-	for offset in ray_offsets:
-		var query = PhysicsRayQueryParameters2D.create(
+	for offset: float in ray_offsets:
+		var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(
 			global_position + Vector2(offset, -CROUCH_SIZE.y / 2),
 			global_position + Vector2(offset, -CROUCH_SIZE.y / 2 - check_distance)
 		)
 		query.exclude = [self]
 		query.collision_mask = 1 # Adjust if your platforms use a different collision layer
 
-		var result = space_state.intersect_ray(query)
+		var result: Dictionary = space_state.intersect_ray(query)
 		if result:
 			return false # Ceiling detected, can't stand up
 
