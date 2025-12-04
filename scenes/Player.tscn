@@ -381,7 +381,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hit",
-"speed": 12.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -531,7 +531,7 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_p07f3")
-animation = &"crouch_up"
+animation = &"hit"
 autoplay = "idle"
 offset = Vector2(7, -4)
 

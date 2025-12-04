@@ -72,7 +72,8 @@ func _setup_button_positions() -> void:
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 
 	# Calculate scale factor based on screen height (reference: 648px height)
-	var scale_factor: float = viewport_size.y / 648.0
+	# Clamp to a maximum scale to prevent oversized buttons on tall screens
+	var scale_factor: float = clamp(viewport_size.y / 648.0, 0.5, 1.5)
 
 	# Define margins from screen edges
 	var margin_x: float = 80.0 * scale_factor
