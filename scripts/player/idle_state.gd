@@ -22,6 +22,11 @@ func physics_update(delta: float) -> void:
 		p.states.change_state(StateMachine.State.CROUCH_TRANSITION_DOWN)
 		return
 
+	# JUMP
+	if Input.is_action_just_pressed("jump") and p.can_jump():
+		p.states.change_state(StateMachine.State.JUMP)
+		return
+
 	# RUN
 	var input_x: float = Input.get_axis("move_left", "move_right")
 	if abs(input_x) > 0:
@@ -38,10 +43,6 @@ func physics_update(delta: float) -> void:
 			p.states.change_state(StateMachine.State.RUN)
 			return
 
-	# JUMP
-	if Input.is_action_just_pressed("jump") and p.can_jump():
-		p.states.change_state(StateMachine.State.JUMP)
-		return
 
 	# gravity
 	if not p.is_on_floor():

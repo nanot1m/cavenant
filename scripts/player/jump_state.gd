@@ -22,7 +22,9 @@ func enter(_previous: StateMachine.State) -> void:
 func physics_update(delta: float) -> void:
 	var p: Player = player
 
-	p.velocity.y += p.GRAVITY * delta
+	# Apply stronger gravity when falling for snappier jumps
+	var gravity_multiplier: float = 2.0 if p.velocity.y > 0 else 1.0
+	p.velocity.y += p.GRAVITY * gravity_multiplier * delta
 
 	# Update jump grace timer
 	jump_grace_timer -= delta
