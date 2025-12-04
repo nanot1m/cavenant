@@ -15,6 +15,9 @@ const GRAVITY: float = 900.0
 # Coyote time tracking
 var time_since_on_floor: float = 0.0
 
+# Floor snapping - helps prevent getting stuck on tile edges
+var snap_length: float = 8.0
+
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var states: StateMachine = $StateMachine
@@ -39,6 +42,11 @@ const JUMP_POS: Vector2 = Vector2(0, 0)
 const WALL_SLIDE_POS: Vector2 = Vector2(0, 0)
 
 func _ready():
+	# Enable floor snapping to prevent getting stuck on tile edges
+	floor_snap_length = snap_length
+	floor_stop_on_slope = true
+	floor_max_angle = deg_to_rad(46)  # Maximum angle considered as floor
+
 	states.init(self)
 
 func _physics_process(delta):
@@ -48,8 +56,15 @@ func _physics_process(delta):
 	else:
 		time_since_on_floor += delta
 
+	# Disable floor snapping when moving horizontally or in air to prevent edge catching
+	# Only snap when moving slowly on ground
+	if is_on_floor() and abs(velocity.x) < speed * 0.5:
+		floor_snap_length = snap_length
+	else:
+		floor_snap_length = 0.0
+
 	states.physics_update(delta)
-	move_and_slide() # always called here
+	move_and_slide()
 
 func is_facing_right() -> bool:
 	return anim.scale.x > 0
@@ -68,7 +83,8 @@ func is_wall_detected() -> bool:
 	var ray_distance = 12.0 # pixels to check
 
 	# Cast multiple rays at different heights to reliably detect walls
-	var ray_offsets = [-PLAYER_HEIGHT / 2, -PLAYER_HEIGHT / 4, 0.0, PLAYER_HEIGHT / 4, PLAYER_HEIGHT / 2] # vertical offsets
+	# Avoid the bottom rays that might catch platform edges
+	var ray_offsets = [-PLAYER_HEIGHT / 3, 0.0, PLAYER_HEIGHT / 3] # vertical offsets
 
 	for offset in ray_offsets:
 		var query = PhysicsRayQueryParameters2D.create(
@@ -80,7 +96,11 @@ func is_wall_detected() -> bool:
 
 		var result = space_state.intersect_ray(query)
 		if result:
-			return true
+			# Check if the collision normal is mostly horizontal (actual wall)
+			# Ignore collisions with mostly vertical normals (platform edges)
+			var normal = result.normal
+			if abs(normal.x) > 0.7:  # Wall must be fairly vertical
+				return true
 
 	return false
 
