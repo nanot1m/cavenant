@@ -10,9 +10,7 @@ extends CanvasLayer
 # Track which direction buttons are pressed
 var is_left_pressed: bool = false
 var is_right_pressed: bool = false
-var is_jump_pressed: bool = false
 var is_crouch_pressed: bool = false
-var is_hit_pressed: bool = false
 
 func _ready() -> void:
 	# Show touch controls only on mobile platforms
@@ -76,13 +74,11 @@ func _on_right_pressed() -> void:
 func _on_right_released() -> void:
 	is_right_pressed = false
 
-# Jump button handlers
+# Jump button handlers (immediate action for just_pressed detection)
 func _on_jump_pressed() -> void:
-	is_jump_pressed = true
 	Input.action_press("jump")
 
 func _on_jump_released() -> void:
-	is_jump_pressed = false
 	Input.action_release("jump")
 
 # Crouch button handlers
@@ -92,11 +88,9 @@ func _on_crouch_pressed() -> void:
 func _on_crouch_released() -> void:
 	is_crouch_pressed = false
 
-# Hit button handlers
+# Hit button handlers (immediate action for just_pressed detection)
 func _on_hit_pressed() -> void:
-	is_hit_pressed = true
 	Input.action_press("hit")
 
 func _on_hit_released() -> void:
-	is_hit_pressed = false
 	Input.action_release("hit")
