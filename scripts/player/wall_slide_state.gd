@@ -7,14 +7,14 @@ const WALL_GRACE_PERIOD = 0.1  # seconds
 var wall_grace_timer = 0.0
 
 func enter(_previous):
-	player.anim.play("wall_slide")
 	player.update_collision_bounds(player.WALL_SLIDE_SIZE, player.WALL_SLIDE_POS)
 	if (player.is_facing_right()):
-		player.anim.position.x += 6
+		player.anim.position.x += 4
 	else:
-		player.anim.position.x -= 6
+		player.anim.position.x -= 4
 	# Reset grace timer when entering wall slide
 	wall_grace_timer = WALL_GRACE_PERIOD
+	player.anim.play("wall_slide")
 
 func exit(_next_state):
 	player.anim.position.x = 0
@@ -50,9 +50,10 @@ func physics_update(delta):
 		player.velocity.y = -player.jump_force
 		# push off the wall
 		if is_facing_right:
-			player.velocity.x = -player.speed
+			player.velocity.x = -player.wall_jump_speed_x
 		else:
-			player.velocity.x = player.speed
+			player.velocity.x = player.wall_jump_speed_x
+		player.face_towards_dir(sign(player.velocity.x))
 		player.states.change_state(StateMachine.State.JUMP)
 		return
 	

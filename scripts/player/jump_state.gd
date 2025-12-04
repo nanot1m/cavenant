@@ -33,16 +33,16 @@ func physics_update(delta):
 		# Reset coyote timer after jumping to prevent multiple jumps from same coyote window
 		p.time_since_on_floor = p.coyote_time + 1.0
 
-	# Horizontal air control with Mario-like physics
+	# Horizontal air control with realistic air friction
 	var input_x = Input.get_axis("move_left", "move_right")
 
+	# Always apply air friction (air resistance acts against movement)
+	p.velocity.x = move_toward(p.velocity.x, 0, p.air_friction * delta)
+
+	# Then apply player input acceleration on top
 	if input_x != 0:
-		# Apply acceleration when player is pressing a direction
 		p.velocity.x = move_toward(p.velocity.x, input_x * p.speed, p.acceleration * delta)
 		p.face_towards_dir(input_x)
-	else:
-		# Apply air friction when no input (Mario-like drift)
-		p.velocity.x = move_toward(p.velocity.x, 0, p.air_friction * delta)
 
 	# HIT
 	if Input.is_action_just_pressed("hit"):
